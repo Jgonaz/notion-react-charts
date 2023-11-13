@@ -1,21 +1,26 @@
 const URL = import.meta.env.VITE_NODE_URL
 
 export const getCategorias = () => {
-  fetch(`${URL}/get-database`)
-    .then(response => response.json())
+  fetch(`${URL}/get-categorias`)
+    .then(response => {
+      if (response.ok) return response.json()
+      throw new Error('Error al obtener datos, get-categorias')
+    })
     .then(data => {
-      console.log(data)
+      console.log('Categorias: ', data)
     })
     .catch(error => {
       console.error(error)
     })
 }
 export const getGastos = () => {
-  const URL = 'http://localhost:3000'
   fetch(`${URL}/get-gastos`)
-    .then(response => response.json())
+    .then(response => {
+      if (response.ok) return response.json()
+      throw new Error('Error al obtener datos, get-gastos')
+    })
     .then(data => {
-      console.log(data)
+      console.log('Gastos: ', data)
     })
     .catch(error => {
       console.error(error)
@@ -23,11 +28,13 @@ export const getGastos = () => {
 }
 
 export const getIngresos = () => {
-  const URL = 'http://localhost:3000'
   fetch(`${URL}/get-ingresos`)
-    .then(response => response.json())
+    .then(response => {
+      if (response.ok) return response.json()
+      throw new Error('Error al obtener datos, get-ingresos')
+    })
     .then(data => {
-      console.log(data)
+      console.log('Ingresos: ', data)
     })
     .catch(error => {
       console.error(error)

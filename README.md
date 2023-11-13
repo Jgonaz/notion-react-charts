@@ -1,8 +1,4 @@
-# React + Vite
+Proyecto de prueba de integración de bases de datos de Notion con React y Node.js para crear gráficas a raíz de una base de datos personal de gastos.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+1. npm run node
+2. npm run dev

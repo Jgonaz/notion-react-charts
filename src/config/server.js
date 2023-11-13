@@ -1,13 +1,15 @@
 // Express con Node.js
 import express from 'express'
 import { Client } from '@notionhq/client'
+import dotenv from 'dotenv'
 
-const NOTION_API_KEY = import.meta.env.VITE_NOTION_API_KEY
-const CATEGORIAS_ID = import.meta.env.VITE_NOTION_CATEGORIAS_ID
-const GASTOS_ID = import.meta.env.VITE_NOTION_GASTOS_ID
-const INGRESOS_ID = import.meta.env.VITE_NOTION_INGRESOS_ID
+dotenv.config()
 
-const APP_URL = import.meta.env.VITE_APP_URL
+const NOTION_API_KEY = process.env.VITE_NOTION_API_KEY
+const CATEGORIAS_ID = process.env.VITE_NOTION_CATEGORIAS_ID
+const GASTOS_ID = process.env.VITE_NOTION_GASTOS_ID
+const INGRESOS_ID = process.env.VITE_NOTION_INGRESOS_ID
+const APP_URL = process.env.VITE_APP_URL
 
 const app = express()
 
