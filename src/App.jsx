@@ -3,13 +3,19 @@ import { useState } from 'react'
 import './styles/styles.scss'
 import databaseIcon from './assets/icons/database-icon.svg'
 import Charts from './components/Charts.jsx'
+import Loading from './components/Loading.jsx'
 
 function App () {
   const [data, setData] = useState(undefined)
+  const [loading, setLoading] = useState(false)
 
   const downloadData = () => {
-    console.log('Descargando datos...')
-    setData(true) // Prueba
+    setLoading(true)
+
+    setTimeout(() => {
+      setLoading(false)
+      setData(true) // Prueba
+    }, 2000)
   }
 
   return (
@@ -17,7 +23,9 @@ function App () {
       <div className='flex-center flex-column'>
         <img src={databaseIcon} alt='Database icon' width={320} height={320} />
         <div>
-          {data ? (
+          {loading ? (
+            <Loading />
+          ) : data ? (
             <Charts data={data} />
           ) : (
             <div className='flex-center flex-column'>

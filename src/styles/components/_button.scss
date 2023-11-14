@@ -1,0 +1,44 @@
+button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  max-height: 44px;
+  padding: 16px;
+  font-size: 16px;
+  font-weight: 600;
+  transition: all 0.15s ease-in-out 0.1s;
+  z-index: 1;
+  span {
+    z-index: 2;
+  }
+  &:before {
+    content: '';
+    position: absolute;
+    background: #2b2d42;
+    z-index: -1;
+  }
+
+  &.main-btn,
+  &.main-btn:focus,
+  &.main-btn:active,
+  &.main-btn:visited {
+    border: 2px solid #2b2d42;
+    background-color: transparent;
+    color: #2b2d42;
+    &:before {
+      width: 0;
+      height: 100%;
+      right: 0;
+      transition: width 0.15s ease-in-out;
+    }
+    &:hover {
+      cursor: pointer;
+      color: white;
+      &:before {
+        width: 100%;
+        left: 0;
+        right: auto;
+      }
+    }
+  }
+}
