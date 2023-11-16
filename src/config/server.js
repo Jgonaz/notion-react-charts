@@ -18,10 +18,7 @@ console.log('Iniciando servidor...')
 // Configura CORS
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', APP_URL)
-  res.header(
-    'Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Accept'
-  )
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
   next()
 })
 
@@ -34,7 +31,8 @@ const notion = new Client({
 app.get('/get-categorias', async (req, res) => {
   try {
     const response = await notion.databases.query({
-      database_id: CATEGORIAS_ID
+      database_id: CATEGORIAS_ID,
+      start_cursor: req.query.start_cursor
     })
     res.json(response)
   } catch (error) {
@@ -45,7 +43,8 @@ app.get('/get-categorias', async (req, res) => {
 app.get('/get-ingresos', async (req, res) => {
   try {
     const response = await notion.databases.query({
-      database_id: INGRESOS_ID
+      database_id: INGRESOS_ID,
+      start_cursor: req.query.start_cursor
     })
     res.json(response)
   } catch (error) {
@@ -56,7 +55,8 @@ app.get('/get-ingresos', async (req, res) => {
 app.get('/get-gastos', async (req, res) => {
   try {
     const response = await notion.databases.query({
-      database_id: GASTOS_ID
+      database_id: GASTOS_ID,
+      start_cursor: req.query.start_cursor
     })
     res.json(response)
   } catch (error) {

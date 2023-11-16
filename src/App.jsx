@@ -1,5 +1,5 @@
 import { useState } from 'react'
-// import { getCategorias, getGastos, getIngresos } from './services/api.js'
+import { getNotionData } from './services/api.js'
 import './styles/styles.scss'
 import databaseIcon from './assets/icons/database-icon.svg'
 import Charts from './components/Charts.jsx'
@@ -11,11 +11,21 @@ function App () {
 
   const downloadData = () => {
     setLoading(true)
-
-    setTimeout(() => {
+    Promise.all([getNotionData('get-gastos')]).then(response => {
+      const [
+        // categorias,
+        gastos
+        // ingresos
+      ] = response
+      const data = {
+        // categorias,
+        gastos
+        // ingresos
+      }
+      console.log(data)
+      setData(data)
       setLoading(false)
-      setData(true) // Prueba
-    }, 2000)
+    })
   }
 
   return (
