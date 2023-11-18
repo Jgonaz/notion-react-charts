@@ -27,7 +27,7 @@ export const mapGastos = gastos => {
   }
 
   const mapRelation = item => {
-    // TODO: implementar
+    return item
   }
 
   return gastos.map(data => {

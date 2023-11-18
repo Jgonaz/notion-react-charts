@@ -6,9 +6,6 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 const NOTION_API_KEY = process.env.VITE_NOTION_API_KEY
-const CATEGORIAS_ID = process.env.VITE_NOTION_CATEGORIAS_ID
-const GASTOS_ID = process.env.VITE_NOTION_GASTOS_ID
-const INGRESOS_ID = process.env.VITE_NOTION_INGRESOS_ID
 const APP_URL = process.env.VITE_APP_URL
 
 const app = express()
@@ -28,40 +25,34 @@ const notion = new Client({
 })
 
 // Maneja la solicitud desde el cliente
-app.get('/get-categorias', async (req, res) => {
+app.get('/get-database/:databaseId', async (req, res) => {
+  const { databaseId } = req.params
+
   try {
     const response = await notion.databases.query({
-      database_id: CATEGORIAS_ID,
+      database_id: databaseId,
       start_cursor: req.query.start_cursor
     })
     res.json(response)
   } catch (error) {
     console.error(error)
-    res.status(500).json({ error: 'Error al obtener datos de Notion API' })
+    res.status(500).json({ error: `Error al obtener datos de la base de datos con ID: ${databaseId}` })
   }
 })
-app.get('/get-ingresos', async (req, res) => {
+
+// Maneja la solicitud desde el cliente
+app.get('/get-page/:pageId', async (req, res) => {
+  const { pageId } = req.params
+
   try {
-    const response = await notion.databases.query({
-      database_id: INGRESOS_ID,
+    const response = await notion.pages.retrieve({
+      page_id: pageId,
       start_cursor: req.query.start_cursor
     })
     res.json(response)
   } catch (error) {
     console.error(error)
-    res.status(500).json({ error: 'Error al obtener datos de Notion API' })
-  }
-})
-app.get('/get-gastos', async (req, res) => {
-  try {
-    const response = await notion.databases.query({
-      database_id: GASTOS_ID,
-      start_cursor: req.query.start_cursor
-    })
-    res.json(response)
-  } catch (error) {
-    console.error(error)
-    res.status(500).json({ error: 'Error al obtener datos de Notion API' })
+    res.status(500).json({ error: `Error al obtener datos de la página con ID: ${pageId}` })
   }
 })
 
