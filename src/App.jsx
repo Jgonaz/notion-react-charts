@@ -4,6 +4,7 @@ import './styles/styles.scss'
 import databaseIcon from './assets/icons/database-icon.svg'
 import Charts from './components/Charts.jsx'
 import Loading from './components/Loading.jsx'
+import { mapCategorias, mapMeses, mapGastos } from './utils/dataMapping.js'
 
 const CATEGORIAS_ID = import.meta.env.VITE_NOTION_CATEGORIAS_ID
 const MESES_ID = import.meta.env.VITE_NOTION_MESES_ID
@@ -14,30 +15,32 @@ function App () {
   const [data, setData] = useState(undefined)
   const [loading, setLoading] = useState(false)
 
-  const downloadData = () => {
+  const downloadData = async () => {
     setLoading(true)
-    Promise.all([
-      // getNotionData(CATEGORIAS_ID, 'Categorias'),
-      getNotionData(MESES_ID, 'Meses'),
-      // getNotionData(INGRESOS_ID, 'Ingresos'),
-      getNotionData(GASTOS_ID, 'Gastos')
-    ]).then(response => {
-      const [
-        // categorias,
-        // ingresos,
-        gastos,
-        meses
-      ] = response
+    try {
+      const [categorias, meses, gastos, ingresos] = await Promise.all([
+        getNotionData(CATEGORIAS_ID, 'Categorias'),
+        getNotionData(MESES_ID, 'Meses'),
+        getNotionData(GASTOS_ID, 'Gastos'),
+        getNotionData(INGRESOS_ID, 'Ingresos')
+      ])
+
       const data = {
-        // categorias,
-        meses,
-        // ingresos,
-        gastos
+        categorias: mapCategorias(categorias),
+        meses: mapMeses(meses),
+        gastos: mapGastos(gastos, mapCategorias(categorias), mapMeses(meses)),
+        ingresos
       }
-      console.log(data)
+
+      console.log('Data:', data)
+
       setData(data)
       setLoading(false)
-    })
+    } catch (error) {
+      console.error('Error:', error)
+      setData(undefined)
+      setLoading(false)
+    }
   }
 
   return (

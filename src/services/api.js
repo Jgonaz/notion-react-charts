@@ -1,10 +1,8 @@
-import { mapGastos } from '../utils/dataMapping.js'
-
 const URL = import.meta.env.VITE_NODE_URL
 
 // Obtiene todos los registros de una base de datos
 export const getNotionData = async (databaseId, databaseName) => {
-  let allRecords = []
+  const allRecords = []
 
   const fetchPage = async (startCursor = null) => {
     let url = `${URL}/get-database/${databaseId}`
@@ -34,8 +32,6 @@ export const getNotionData = async (databaseId, databaseName) => {
   await fetchPage()
 
   // Devuelve todos los registros recolectados
-  allRecords = mapGastos(allRecords)
-  console.log(databaseName, allRecords)
   return allRecords
 }
 
