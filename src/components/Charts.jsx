@@ -1,47 +1,33 @@
-import { PieChart, Pie, Cell, Tooltip, Legend } from 'recharts'
-import PropTypes from 'prop-types' // Importa PropTypes
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
+import { Pie } from 'react-chartjs-2'
+import { chartColors, chartBorderColors } from '../constants/chartColors.js'
 
-// Espera recibir una propiedad llamada data que debe ser un array,
-Charts.propTypes = {
-  data: PropTypes.array.isRequired
-}
+ChartJS.register(ArcElement, Tooltip, Legend)
 
-export default function Charts ({ data }) {
-  const COLORS = [
-    '#8884d8',
-    '#83a6ed',
-    '#8dd1e1',
-    '#82ca9d',
-    '#a4de6c',
-    '#d0ed57',
-    '#ffc658',
-    '#fa8c16',
-    '#d4380d',
-    '#ad2102',
-    '#722ed1',
-    '#eb2f96',
-    '#fadb14'
-  ]
+export default function Chart (chartData) {
+  const data = {
+    labels: chartData.data.map(item => item.Categoría),
+    datasets: [
+      {
+        label: 'Total euros (€)',
+        data: chartData.data.map(item => item.Cantidad),
+        backgroundColor: chartColors,
+        borderColor: chartBorderColors,
+        borderWidth: 1
+      }
+    ]
+  }
 
-  return (
-    <PieChart width={400} height={800}>
-      <Pie
-        data={data}
-        dataKey='Cantidad'
-        nameKey='Categoría'
-        cx='50%'
-        cy='50%'
-        outerRadius={200}
-        fill='#8884d8'
-        label
-        colors={COLORS}
-      >
-        {data.map((entry, index) => (
-          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-        ))}
-      </Pie>
-      <Tooltip />
-      <Legend />
-    </PieChart>
-  )
+  const options = {
+    plugins: {
+      legend: {
+        display: true,
+        position: 'bottom',
+        labels: {
+          padding: 15
+        }
+      }
+    }
+  }
+  return <Pie data={data} width={800} height={800} options={options} />
 }

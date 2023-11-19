@@ -46,18 +46,20 @@ function App () {
   return (
     <>
       <div className='flex-center flex-column'>
-        <img src={databaseIcon} alt='Database icon' width={320} height={320} />
         <div>
           {loading ? (
             <Loading />
           ) : data ? (
             <Charts data={groupByCategories(data.gastos)} />
           ) : (
-            <div className='flex-center flex-column'>
-              <button className='main-btn' type='button' onClick={downloadData}>
-                <span>Descargar datos</span>
-              </button>
-              <p>Pulsa descargar para mostrar la gráfica.</p>
+            <div>
+              <img src={databaseIcon} alt='Database icon' width={320} height={320} />
+              <div className='flex-center flex-column'>
+                <button className='main-btn' type='button' onClick={downloadData}>
+                  <span>Descargar datos</span>
+                </button>
+                <p>Pulsa descargar para mostrar la gráfica.</p>
+              </div>
             </div>
           )}
         </div>
