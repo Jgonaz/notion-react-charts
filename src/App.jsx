@@ -4,7 +4,7 @@ import './styles/styles.scss'
 import databaseIcon from './assets/icons/database-icon.svg'
 import Charts from './components/Charts.jsx'
 import Loading from './components/Loading.jsx'
-import { mapCategorias, mapMeses, mapGastos } from './utils/dataMapping.js'
+import { mapCategorias, mapMeses, mapGastos, groupByCategories } from './utils/dataMapping.js'
 
 const CATEGORIAS_ID = import.meta.env.VITE_NOTION_CATEGORIAS_ID
 const MESES_ID = import.meta.env.VITE_NOTION_MESES_ID
@@ -32,7 +32,7 @@ function App () {
         ingresos
       }
 
-      console.log('Data:', data)
+      console.log('Data:', groupByCategories(data.gastos))
 
       setData(data)
       setLoading(false)
@@ -51,7 +51,7 @@ function App () {
           {loading ? (
             <Loading />
           ) : data ? (
-            <Charts data={data} />
+            <Charts data={groupByCategories(data.gastos)} />
           ) : (
             <div className='flex-center flex-column'>
               <button className='main-btn' type='button' onClick={downloadData}>

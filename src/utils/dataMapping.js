@@ -67,3 +67,30 @@ export const mapCategorias = data => {
     return []
   }
 }
+
+export const groupByCategories = data => {
+  // Crear un objeto para almacenar la suma de cantidades por categoría
+  const categoriasSuma = {}
+
+  // Procesar los datos y sumar las cantidades por categoría
+  data.forEach(item => {
+    const categoria = item.Categoría
+    const cantidad = item.Cantidad
+
+    // Si la categoría ya existe en el objeto, sumar la cantidad
+    if (categoriasSuma[categoria]) {
+      categoriasSuma[categoria] += cantidad
+    } else {
+      // Si la categoría no existe, crearla y establecer la cantidad
+      categoriasSuma[categoria] = cantidad
+    }
+  })
+
+  // Convertir el objeto en un array para usarlo con Recharts
+  const datosAgrupados = Object.keys(categoriasSuma).map(categoria => ({
+    Categoría: categoria,
+    Cantidad: categoriasSuma[categoria]
+  }))
+
+  return datosAgrupados
+}
