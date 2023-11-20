@@ -5,6 +5,7 @@ import databaseIcon from './assets/icons/database-icon.svg'
 import Charts from './components/Charts.jsx'
 import Loading from './components/Loading.jsx'
 import { mapCategorias, mapMeses, mapGastos, groupByCategories } from './utils/dataMapping.js'
+import { formatCurrency, obtenerInformacionFechas } from './utils/utils.js'
 
 const CATEGORIAS_ID = import.meta.env.VITE_NOTION_CATEGORIAS_ID
 const MESES_ID = import.meta.env.VITE_NOTION_MESES_ID
@@ -12,7 +13,9 @@ const INGRESOS_ID = import.meta.env.VITE_NOTION_INGRESOS_ID
 const GASTOS_ID = import.meta.env.VITE_NOTION_GASTOS_ID
 
 function App () {
-  const [data, setData] = useState(undefined)
+  const [notionData, setNotionData] = useState(undefined)
+  const [totalAmount, setTotalAmount] = useState(0)
+  const [dateInformation, setDateInformation] = useState({})
   const [loading, setLoading] = useState(false)
 
   const downloadData = async () => {
@@ -32,13 +35,13 @@ function App () {
         ingresos
       }
 
-      console.log('Data:', groupByCategories(data.gastos))
-
-      setData(data)
       setLoading(false)
+      setNotionData(data)
+      setDateInformation(obtenerInformacionFechas(data.gastos))
+      setTotalAmount(prevTotal => formatCurrency(data.gastos.reduce((acc, item) => acc + item.Cantidad, 0)))
     } catch (error) {
       console.error('Error:', error)
-      setData(undefined)
+      setNotionData(undefined)
       setLoading(false)
     }
   }
@@ -47,11 +50,9 @@ function App () {
     <>
       <div className='flex-center flex-column'>
         <div>
-          {loading ? (
-            <Loading />
-          ) : data ? (
-            <Charts data={groupByCategories(data.gastos)} />
-          ) : (
+          {loading && <Loading />}
+
+          {!loading && !notionData && (
             <div>
               <img src={databaseIcon} alt='Database icon' width={320} height={320} />
               <div className='flex-center flex-column'>
@@ -60,6 +61,16 @@ function App () {
                 </button>
                 <p>Pulsa descargar para mostrar la gráfica.</p>
               </div>
+            </div>
+          )}
+
+          {!loading && notionData && (
+            <div className='flex-center flex-column'>
+              <p>
+                Gasto total desde el {dateInformation.firstDay} al {dateInformation.lastDay} (
+                {dateInformation.totalDays} días): {totalAmount}
+              </p>
+              <Charts data={groupByCategories(notionData.gastos)} />
             </div>
           )}
         </div>
