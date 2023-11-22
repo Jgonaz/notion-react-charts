@@ -23,4 +23,11 @@ body {
   flex-direction: column;
 }
 
+.month-selector {
+  > select {
+    padding: 6px;
+    border-radius: 12px;
+  }
+}
+
 @import 'components/button';

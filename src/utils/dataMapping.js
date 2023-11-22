@@ -28,7 +28,11 @@ export const mapGastos = (gastos, categorias, meses) => {
     return gastos.map(data => {
       const item = {}
       Object.entries(data.properties).forEach(([key, value]) => {
-        item[key] = mapData(value.type.toString(), value[value.type.toString()], key)
+        item[key] = mapData(
+          value.type.toString(),
+          value[value.type.toString()],
+          key
+        )
       })
       return item
     })
@@ -43,7 +47,10 @@ export const mapMeses = data => {
   try {
     data.map(item => {
       if (months.some(month => month.id === item.id)) return null
-      months.push({ id: item.id, value: item.properties['Título'].title[0].plain_text })
+      months.push({
+        id: item.id,
+        value: item.properties['Título'].title[0].plain_text
+      })
       return item
     })
     return months
@@ -58,7 +65,10 @@ export const mapCategorias = data => {
   try {
     data.map(item => {
       if (categories.some(cat => cat.id === item.id)) return null
-      categories.push({ id: item.id, value: item.properties['Título'].title[0].plain_text })
+      categories.push({
+        id: item.id,
+        value: item.properties['Título'].title[0].plain_text
+      })
       return item
     })
     return categories
@@ -68,6 +78,7 @@ export const mapCategorias = data => {
   }
 }
 
+// Agrupa todos los gastos por categoría
 export const groupByCategories = data => {
   // Crear un objeto para almacenar la suma de cantidades por categoría
   const categoriasSuma = {}

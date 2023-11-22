@@ -1,8 +1,12 @@
 import PropTypes from 'prop-types'
 import { createContext, useState } from 'react'
 import { getNotionData } from '../services/api.js'
-import { mapCategorias, mapMeses, mapGastos } from '../utils/dataMapping.js'
-import { formatCurrency, obtenerInformacionFechas } from '../utils/utils.js'
+import {
+  mapCategorias,
+  mapMeses,
+  mapGastos,
+  groupByCategories
+} from '../utils/dataMapping.js'
 
 // Crear el Contexto
 const NotionDataContext = createContext()
@@ -11,8 +15,8 @@ const NotionDataContext = createContext()
 const NotionDataProvider = ({ children }) => {
   // Creamos los estados
   const [notionData, setNotionData] = useState(undefined)
-  const [totalAmount, setTotalAmount] = useState(0)
-  const [dateInformation, setDateInformation] = useState({})
+  const [pieChartData, setPieChartData] = useState([])
+  const [monthFilter, setMonthFilter] = useState('')
   const [loading, setLoading] = useState(false)
 
   // Descarga y mapea los datos de Notion.
@@ -37,11 +41,10 @@ const NotionDataProvider = ({ children }) => {
         ingresos
       }
 
-      // Settea los estados.
       setLoading(false)
       setNotionData(data)
-      setDateInformation(obtenerInformacionFechas(data.gastos))
-      setTotalAmount(prevTotal => formatCurrency(data.gastos.reduce((acc, item) => acc + item.Cantidad, 0)))
+      const pieChartData = groupByCategories(data.gastos)
+      setPieChartData(pieChartData)
     } catch (error) {
       console.error('Error:', error)
       setNotionData(undefined)
@@ -53,9 +56,11 @@ const NotionDataProvider = ({ children }) => {
     <NotionDataContext.Provider
       value={{
         notionData,
-        totalAmount,
-        dateInformation,
+        pieChartData,
+        setPieChartData,
         loading,
+        monthFilter,
+        setMonthFilter,
         downloadData
       }}
     >
