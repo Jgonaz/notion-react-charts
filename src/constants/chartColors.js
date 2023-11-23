@@ -1,31 +1,31 @@
 export const chartColors = [
-  'rgba(136, 132, 216, 0.2)',
-  'rgba(131, 166, 237, 0.2)',
-  'rgba(141, 209, 225, 0.2)',
-  'rgba(130, 202, 157, 0.2)',
-  'rgba(164, 222, 108, 0.2)',
-  'rgba(208, 237, 87, 0.2)',
-  'rgba(255, 198, 88, 0.2)',
-  'rgba(250, 140, 22, 0.2)',
-  'rgba(212, 56, 13, 0.2)',
-  'rgba(173, 33, 2, 0.2)',
-  'rgba(114, 46, 209, 0.2)',
-  'rgba(235, 47, 150, 0.2)',
-  'rgba(250, 219, 20, 0.2)'
+  'rgba(31, 119, 180, 0.2)', // Azul
+  'rgba(255, 127, 14, 0.2)', // Naranja
+  'rgba(44, 160, 44, 0.2)', // Verde
+  'rgba(214, 39, 40, 0.2)', // Rojo
+  'rgba(148, 103, 189, 0.2)', // Púrpura
+  'rgba(140, 86, 75, 0.2)', // Marrón
+  'rgba(227, 119, 194, 0.2)', // Rosa
+  'rgba(127, 127, 127, 0.2)', // Gris
+  'rgba(188, 189, 34, 0.2)', // Amarillo verdoso
+  'rgba(23, 190, 207, 0.2)', // Turquesa
+  'rgba(255, 152, 150, 0.2)', // Rosa pálido
+  'rgba(174, 199, 232, 0.2)', // Azul claro
+  '#ffffff' // Blanco
 ]
 
 export const chartBorderColors = [
-  'rgba(136, 132, 216, 1)',
-  'rgba(131, 166, 237, 1)',
-  'rgba(141, 209, 225, 1)',
-  'rgba(130, 202, 157, 1)',
-  'rgba(164, 222, 108, 1)',
-  'rgba(208, 237, 87, 1)',
-  'rgba(255, 198, 88, 1)',
-  'rgba(250, 140, 22, 1)',
-  'rgba(212, 56, 13, 1)',
-  'rgba(173, 33, 2, 1)',
-  'rgba(114, 46, 209, 1)',
-  'rgba(235, 47, 150, 1)',
-  'rgba(250, 219, 20, 1)'
+  '#1f77b4', // Azul
+  '#ff7f0e', // Naranja
+  '#2ca02c', // Verde
+  '#d62728', // Rojo
+  '#9467bd', // Púrpura
+  '#8c564b', // Marrón
+  '#e377c2', // Rosa
+  '#7f7f7f', // Gris
+  '#bcbd22', // Amarillo verdoso
+  '#17becf', // Turquesa
+  '#ff9896', // Rosa pálido
+  '#aec7e8', // Azul claro
+  'rgba(0, 0, 0, 0.2)' // Blanco
 ]

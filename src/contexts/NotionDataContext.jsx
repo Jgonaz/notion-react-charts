@@ -5,7 +5,7 @@ import {
   mapCategorias,
   mapMeses,
   mapGastos,
-  groupByCategories
+  groupGastos
 } from '../utils/dataMapping.js'
 
 // Crear el Contexto
@@ -43,7 +43,7 @@ const NotionDataProvider = ({ children }) => {
 
       setLoading(false)
       setNotionData(data)
-      const pieChartData = groupByCategories(data.gastos)
+      const pieChartData = groupGastos(data.gastos)
       setPieChartData(pieChartData)
     } catch (error) {
       console.error('Error:', error)

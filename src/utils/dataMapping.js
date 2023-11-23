@@ -78,15 +78,15 @@ export const mapCategorias = data => {
   }
 }
 
-// Agrupa todos los gastos por categoría
-export const groupByCategories = data => {
+// Agrupa todos los gastos por categoría y mes (si hay filtro indicado)
+export const groupGastos = (gastos, mes) => {
   // Crear un objeto para almacenar la suma de cantidades por categoría
   const categoriasSuma = {}
 
   // Procesar los datos y sumar las cantidades por categoría
-  data.forEach(item => {
+  gastos.forEach(item => {
     const categoria = item.Categoría
-    const cantidad = item.Cantidad
+    const cantidad = !mes || item.Mes === mes ? item.Cantidad : 0
 
     // Si la categoría ya existe en el objeto, sumar la cantidad
     if (categoriasSuma[categoria]) {

@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 import { NotionDataContext } from '../contexts/NotionDataContext.jsx'
-import { groupByCategories } from '../utils/dataMapping.js'
+import { groupGastos } from '../utils/dataMapping.js'
 
 export default function MonthSelector () {
   const { notionData, setPieChartData, monthFilter, setMonthFilter } =
@@ -16,11 +16,7 @@ export default function MonthSelector () {
   const onChangeFilter = month => {
     setMonthFilter(month)
     setPieChartData(prevState =>
-      groupByCategories(
-        month === 'Todos los meses'
-          ? notionData.gastos
-          : notionData.gastos.filter(gasto => gasto.Mes === month)
-      )
+      groupGastos(notionData.gastos, month === 'Todos los meses' ? '' : month)
     )
   }
 
