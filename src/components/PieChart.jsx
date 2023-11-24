@@ -2,10 +2,10 @@ import { useContext } from 'react'
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
 import { Pie } from 'react-chartjs-2'
 import ChartDataLabels from 'chartjs-plugin-datalabels'
-import { chartColors, chartBorderColors } from '../constants/chartColors.js'
 import { NotionDataContext } from '../contexts/NotionDataContext.jsx'
 import MonthSelector from './MonthSelector.jsx'
 import { formatCurrency } from '../utils/utils.js'
+import CategoriesList from './CategoriesList.jsx'
 
 ChartJS.register(ArcElement, Tooltip, Legend)
 ChartJS.register(ChartDataLabels)
@@ -19,8 +19,8 @@ export default function PieChart () {
       {
         label: '(€)',
         data: state.pieChartData.map(item => item.Cantidad),
-        backgroundColor: chartColors,
-        borderColor: chartBorderColors,
+        backgroundColor: state.pieChartData.map(item => item.Color),
+        borderColor: state.pieChartData.map(item => item.BorderColor),
         borderWidth: 1
       }
     ]
@@ -29,11 +29,7 @@ export default function PieChart () {
   const options = {
     plugins: {
       legend: {
-        display: true,
-        position: 'bottom',
-        labels: {
-          padding: 15
-        }
+        display: false
       },
       datalabels: {
         display: context =>
@@ -66,26 +62,16 @@ export default function PieChart () {
     }
   }
   return (
-    <div className='flex-center flex-column'>
-      <div
-        className='flex-center'
-        style={{ gap: '15px', marginBottom: '15px' }}
-      >
-        <span>
-          Total:{' '}
-          {formatCurrency(
-            state.pieChartData.reduce((acc, item) => acc + item.Cantidad, 0)
-          )}
-        </span>
-        <MonthSelector />
+    <div className='flex-center'>
+      <div>
+        <div className='flex-center' style={{ marginTop: '15px' }}>
+          <MonthSelector />
+        </div>
+        <div style={{ width: '600px', height: '600px', padding: '15px' }}>
+          <Pie data={data} options={options} plugins={[ChartDataLabels]} />
+        </div>
       </div>
-      <Pie
-        data={data}
-        width={800}
-        height={800}
-        options={options}
-        plugins={[ChartDataLabels]}
-      />
+      <CategoriesList />
     </div>
   )
 }

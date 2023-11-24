@@ -1,3 +1,5 @@
+import { chartColors, chartBorderColors } from '../constants/chartColors'
+
 export const mapGastos = (gastos, categorias, meses) => {
   try {
     const mapData = function (data, item, property) {
@@ -82,11 +84,15 @@ export const mapCategorias = data => {
 export const groupGastos = (gastos, mes) => {
   // Crear un objeto para almacenar la suma de cantidades por categoría
   const categoriasSuma = {}
+  let total = 0
 
   // Procesar los datos y sumar las cantidades por categoría
   gastos.forEach(item => {
     const categoria = item.Categoría
     const cantidad = !mes || item.Mes === mes ? item.Cantidad : 0
+
+    // Sumar la cantidad al total
+    total += cantidad
 
     // Si la categoría ya existe en el objeto, sumar la cantidad
     if (categoriasSuma[categoria]) {
@@ -98,10 +104,18 @@ export const groupGastos = (gastos, mes) => {
   })
 
   // Convertir el objeto en un array para usarlo con Recharts
-  const datosAgrupados = Object.keys(categoriasSuma).map(categoria => ({
-    Categoría: categoria,
-    Cantidad: categoriasSuma[categoria]
-  }))
+  const datosAgrupados = Object.keys(categoriasSuma).map((categoria, index) => {
+    const cantidad = categoriasSuma[categoria]
+    const porcentaje = total > 0 ? ((cantidad / total) * 100).toFixed(2) : 0
+
+    return {
+      Categoría: categoria,
+      Cantidad: cantidad,
+      Porcentaje: porcentaje,
+      Color: chartColors[index],
+      BorderColor: chartBorderColors[index]
+    }
+  })
 
   return datosAgrupados
 }

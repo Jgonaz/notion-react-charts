@@ -1,0 +1,30 @@
+.categories-list {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 16px;
+  .category {
+    display: flex;
+    align-items: center;
+    padding: 8px 16px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    &-total {
+      font-weight: bold;
+    }
+    &-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-grow: 1;
+      > div {
+        display: flex;
+        gap: 16px;
+      }
+    }
+    span {
+      font-weight: bold;
+    }
+  }
+}
