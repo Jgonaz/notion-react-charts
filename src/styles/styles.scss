@@ -5,7 +5,7 @@ html {
 body {
   max-width: 1200px;
   margin: auto;
-  font-family: 'Helvetica', 'Arial', sans-serif;
+  font-family: 'Roboto', sans-serif;
 }
 
 #app {
@@ -34,3 +34,4 @@ body {
 }
 
 @import 'components/button';
+@import 'components/fonts';

@@ -32,11 +32,7 @@ export default function PieChart () {
         display: false
       },
       datalabels: {
-        display: context =>
-          (context.dataset.data[context.dataIndex] /
-            state.pieChartData.reduce((acc, item) => acc + item.Cantidad, 0)) *
-            100 >
-          10, // Solo mostrará el porcentaje si es mayor al 10%.
+        display: false,
         formatter: (value, context) => {
           const label = data.labels[context.dataIndex]
           const porcentaje = (
