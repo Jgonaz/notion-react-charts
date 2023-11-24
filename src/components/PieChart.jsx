@@ -61,6 +61,7 @@ export default function PieChart () {
       }
     }
   }
+
   return (
     <div className='flex-center'>
       <div>

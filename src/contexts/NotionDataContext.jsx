@@ -5,13 +5,13 @@ import {
   mapCategorias,
   mapMeses,
   mapGastos,
-  groupGastos
+  groupCategories
 } from '../utils/dataMapping.js'
 
 const initialState = {
   notionData: undefined,
   pieChartData: [],
-  monthFilter: '',
+  monthFilter: 'Todos los meses', // Filtramos por cadena
   loading: false
 }
 
@@ -49,8 +49,6 @@ const NotionDataProvider = ({ children }) => {
         getNotionData(import.meta.env.VITE_NOTION_INGRESOS_ID, 'Ingresos')
       ])
 
-      console.log('Data:', [categorias, meses, gastos, ingresos])
-
       // Mapea los datos.
       const data = {
         categorias: mapCategorias(categorias),
@@ -63,7 +61,7 @@ const NotionDataProvider = ({ children }) => {
       dispatch({ type: 'SET_NOTION_DATA', payload: data })
       dispatch({
         type: 'SET_PIE_CHART_DATA',
-        payload: groupGastos(data.gastos)
+        payload: groupCategories(data.gastos)
       })
     } catch (error) {
       console.error('Error:', error)

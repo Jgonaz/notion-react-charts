@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 import { NotionDataContext } from '../contexts/NotionDataContext.jsx'
-import { groupGastos } from '../utils/dataMapping.js'
+import { groupCategories } from '../utils/dataMapping.js'
 
 export default function MonthSelector () {
   const { state, dispatch } = useContext(NotionDataContext)
@@ -17,7 +17,7 @@ export default function MonthSelector () {
     dispatch({
       type: 'SET_PIE_CHART_DATA',
       payload: (prevState =>
-        groupGastos(
+        groupCategories(
           state.notionData?.gastos,
           month === 'Todos los meses' ? '' : month
         ))()

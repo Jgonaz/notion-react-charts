@@ -81,7 +81,7 @@ export const mapCategorias = data => {
 }
 
 // Agrupa todos los gastos por categoría y mes (si hay filtro indicado)
-export const groupGastos = (gastos, mes) => {
+export const groupCategories = (gastos, mes) => {
   // Crear un objeto para almacenar la suma de cantidades por categoría
   const categoriasSuma = {}
   let total = 0
@@ -118,4 +118,17 @@ export const groupGastos = (gastos, mes) => {
   })
 
   return datosAgrupados
+}
+
+// Devuelve los gastos por categoría y mes (si hay filtro indicado)
+export const groupGastos = (gastos, categoria, mes) => {
+  // Filtrar los gastos por categoría y mes
+  const gastosFiltrados = gastos.filter(gasto => {
+    return (
+      gasto.Categoría === categoria.Categoría &&
+      (mes === 'Todos los meses' || gasto.Mes === mes)
+    )
+  })
+
+  return gastosFiltrados
 }
