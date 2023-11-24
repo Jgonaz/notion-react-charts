@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import { createContext, useState } from 'react'
+import { createContext, useReducer } from 'react'
 import { getNotionData } from '../services/api.js'
 import {
   mapCategorias,
@@ -8,20 +8,38 @@ import {
   groupGastos
 } from '../utils/dataMapping.js'
 
+const initialState = {
+  notionData: undefined,
+  pieChartData: [],
+  monthFilter: '',
+  loading: false
+}
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case 'SET_NOTION_DATA':
+      return { ...state, notionData: action.payload }
+    case 'SET_PIE_CHART_DATA':
+      return { ...state, pieChartData: action.payload }
+    case 'SET_MONTH_FILTER':
+      return { ...state, monthFilter: action.payload }
+    case 'SET_LOADING':
+      return { ...state, loading: action.payload }
+    default:
+      return state
+  }
+}
+
 // Crear el Contexto
 const NotionDataContext = createContext()
 
 // Crear el Proveedor del Contexto
 const NotionDataProvider = ({ children }) => {
-  // Creamos los estados
-  const [notionData, setNotionData] = useState(undefined)
-  const [pieChartData, setPieChartData] = useState([])
-  const [monthFilter, setMonthFilter] = useState('')
-  const [loading, setLoading] = useState(false)
+  const [state, dispatch] = useReducer(reducer, initialState)
 
   // Descarga y mapea los datos de Notion.
   const downloadData = async () => {
-    setLoading(true)
+    dispatch({ type: 'SET_LOADING', payload: true })
     try {
       // Trae los datos de las bases de datos.
       const [categorias, meses, gastos, ingresos] = await Promise.all([
@@ -41,29 +59,21 @@ const NotionDataProvider = ({ children }) => {
         ingresos
       }
 
-      setLoading(false)
-      setNotionData(data)
-      const pieChartData = groupGastos(data.gastos)
-      setPieChartData(pieChartData)
+      dispatch({ type: 'SET_LOADING', payload: false })
+      dispatch({ type: 'SET_NOTION_DATA', payload: data })
+      dispatch({
+        type: 'SET_PIE_CHART_DATA',
+        payload: groupGastos(data.gastos)
+      })
     } catch (error) {
       console.error('Error:', error)
-      setNotionData(undefined)
-      setLoading(false)
+      dispatch({ type: 'SET_LOADING', payload: false })
+      dispatch({ type: 'SET_PIE_CHART_DATA', payload: undefined })
     }
   }
 
   return (
-    <NotionDataContext.Provider
-      value={{
-        notionData,
-        pieChartData,
-        setPieChartData,
-        loading,
-        monthFilter,
-        setMonthFilter,
-        downloadData
-      }}
-    >
+    <NotionDataContext.Provider value={{ state, dispatch, downloadData }}>
       {children}
     </NotionDataContext.Provider>
   )

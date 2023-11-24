@@ -3,27 +3,31 @@ import { NotionDataContext } from '../contexts/NotionDataContext.jsx'
 import { groupGastos } from '../utils/dataMapping.js'
 
 export default function MonthSelector () {
-  const { notionData, setPieChartData, monthFilter, setMonthFilter } =
-    useContext(NotionDataContext)
+  const { state, dispatch } = useContext(NotionDataContext)
 
   const monthOptions = [
     { value: '', label: 'Todos los meses' },
-    ...notionData.meses.map(month => {
+    ...(state.notionData?.meses || []).map(month => {
       return { value: month.id, label: month.value }
     })
   ]
 
   const onChangeFilter = month => {
-    setMonthFilter(month)
-    setPieChartData(prevState =>
-      groupGastos(notionData.gastos, month === 'Todos los meses' ? '' : month)
-    )
+    dispatch({ type: 'SET_MONTH_FILTER', payload: month })
+    dispatch({
+      type: 'SET_PIE_CHART_DATA',
+      payload: (prevState =>
+        groupGastos(
+          state.notionData?.gastos,
+          month === 'Todos los meses' ? '' : month
+        ))()
+    })
   }
 
   return (
     <div className='month-selector'>
       <select
-        value={monthFilter}
+        value={state.monthFilter}
         onChange={e => onChangeFilter(e.target.value)}
       >
         {monthOptions.map((month, index) => (

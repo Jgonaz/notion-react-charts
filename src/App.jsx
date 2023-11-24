@@ -5,7 +5,7 @@ import PieChart from './components/PieChart.jsx'
 import Loading from './components/Loading.jsx'
 
 function App () {
-  const { loading, notionData, downloadData } = useContext(NotionDataContext)
+  const { state, downloadData } = useContext(NotionDataContext)
 
   function Buttons () {
     return (
@@ -19,9 +19,9 @@ function App () {
 
   return (
     <div className='flex-center flex-column'>
-      {loading && <Loading />}
-      {!loading && !notionData && <Buttons />}
-      {!loading && notionData && <PieChart />}
+      {state.loading && <Loading />}
+      {!state.loading && !state.notionData && <Buttons />}
+      {!state.loading && state.notionData && <PieChart />}
     </div>
   )
 }

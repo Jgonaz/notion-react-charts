@@ -11,14 +11,14 @@ ChartJS.register(ArcElement, Tooltip, Legend)
 ChartJS.register(ChartDataLabels)
 
 export default function PieChart () {
-  const { pieChartData } = useContext(NotionDataContext)
+  const { state } = useContext(NotionDataContext)
 
   const data = {
-    labels: pieChartData.map(item => item.Categoría),
+    labels: state.pieChartData.map(item => item.Categoría),
     datasets: [
       {
         label: '(€)',
-        data: pieChartData.map(item => item.Cantidad),
+        data: state.pieChartData.map(item => item.Cantidad),
         backgroundColor: chartColors,
         borderColor: chartBorderColors,
         borderWidth: 1
@@ -38,14 +38,17 @@ export default function PieChart () {
       datalabels: {
         display: context =>
           (context.dataset.data[context.dataIndex] /
-            pieChartData.reduce((acc, item) => acc + item.Cantidad, 0)) *
+            state.pieChartData.reduce((acc, item) => acc + item.Cantidad, 0)) *
             100 >
           10, // Solo mostrará el porcentaje si es mayor al 10%.
         formatter: (value, context) => {
           const label = data.labels[context.dataIndex]
           const porcentaje = (
             (value /
-              pieChartData.reduce((acc, item) => acc + item.Cantidad, 0)) *
+              state.pieChartData.reduce(
+                (acc, item) => acc + item.Cantidad,
+                0
+              )) *
             100
           ).toFixed(2) // Redondear a dos decimales
           return `${label.split(' ')[0]}: ${formatCurrency(
@@ -71,7 +74,7 @@ export default function PieChart () {
         <span>
           Total:{' '}
           {formatCurrency(
-            pieChartData.reduce((acc, item) => acc + item.Cantidad, 0)
+            state.pieChartData.reduce((acc, item) => acc + item.Cantidad, 0)
           )}
         </span>
         <MonthSelector />
