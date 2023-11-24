@@ -5,14 +5,12 @@ import PieChart from './components/PieChart.jsx'
 import Loading from './components/Loading.jsx'
 
 function App () {
-  const { state, downloadData } = useContext(NotionDataContext)
+  const { state } = useContext(NotionDataContext)
 
-  function Buttons () {
+  function NoData () {
     return (
       <div className='flex-center flex-column'>
-        <button className='main-btn' type='button' onClick={downloadData}>
-          Mostrar gastos por meses
-        </button>
+        <h1>No hay datos para mostrar</h1>
       </div>
     )
   }
@@ -20,7 +18,7 @@ function App () {
   return (
     <div className='flex-center flex-column'>
       {state.loading && <Loading />}
-      {!state.loading && !state.notionData && <Buttons />}
+      {!state.loading && !state.notionData && <NoData />}
       {!state.loading && state.notionData && <PieChart />}
     </div>
   )

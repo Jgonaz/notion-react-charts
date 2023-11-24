@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import { createContext, useReducer } from 'react'
+import { createContext, useReducer, useEffect } from 'react'
 import { getNotionData } from '../services/api.js'
 import {
   mapCategorias,
@@ -72,8 +72,12 @@ const NotionDataProvider = ({ children }) => {
     }
   }
 
+  useEffect(() => {
+    downloadData()
+  }, [])
+
   return (
-    <NotionDataContext.Provider value={{ state, dispatch, downloadData }}>
+    <NotionDataContext.Provider value={{ state, dispatch }}>
       {children}
     </NotionDataContext.Provider>
   )
