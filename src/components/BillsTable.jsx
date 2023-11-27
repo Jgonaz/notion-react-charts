@@ -1,19 +1,46 @@
 import '../styles/components/BillsTable.scss'
-import PropTypes from 'prop-types'
 import { formatCurrency } from '../utils/utils'
 import { useContext } from 'react'
 import { NotionDataContext } from '../contexts/NotionDataContext.jsx'
+import { groupGastos } from '../utils/dataMapping.js'
 
 const BillsTable = () => {
-  const { state } = useContext(NotionDataContext)
+  const { state, dispatch } = useContext(NotionDataContext)
+
+  const handleOrder = (property, type) => {
+    const modalData = groupGastos(
+      state.notionData.gastos,
+      state.modalData[0].Categoría,
+      state.monthFilter,
+      { property, type }
+    )
+    dispatch({ type: 'SET_MODAL_ORDER', payload: { property, type } })
+    dispatch({ type: 'SET_MODAL_DATA', payload: modalData })
+  }
 
   return (
     <div className='bills-table'>
       <div className='row header'>
-        <div className='cell'>
+        <div
+          className='cell cursor-pointer'
+          onClick={() =>
+            handleOrder(
+              'Fecha',
+              state.modalOrder.type === 'asc' ? 'desc' : 'asc'
+            )
+          }
+        >
           <strong>Fecha</strong>
         </div>
-        <div className='cell'>
+        <div
+          className='cell cursor-pointer'
+          onClick={() =>
+            handleOrder(
+              'Cantidad',
+              state.modalOrder.type === 'asc' ? 'desc' : 'asc'
+            )
+          }
+        >
           <strong>Cantidad</strong>
         </div>
         <div className='cell'>
@@ -41,10 +68,6 @@ const BillsTable = () => {
       ))}
     </div>
   )
-}
-
-BillsTable.propTypes = {
-  data: PropTypes.array.isRequired
 }
 
 export default BillsTable

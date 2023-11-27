@@ -9,9 +9,10 @@ import {
 } from '../utils/dataMapping.js'
 
 const initialState = {
-  notionData: undefined, // Datos de las tablas de Notion (todos los gastos, ingresos, categorías y meses)
+  notionData: null, // Datos de las tablas de Notion (todos los gastos, ingresos, categorías y meses)
   pieChartData: [], // Datos para el gráfico (gastos organizados por categoría)
-  modalData: undefined, // Datos para la modal (gastos desglosados por fecha, organizados por categoría y mes)
+  modalData: null, // Datos para la modal (gastos desglosados por fecha, organizados por categoría y mes)
+  modalOrder: { property: 'Fecha', type: 'desc' }, // Orden de la modal (ascendente o descendente)
   monthFilter: 'Todos los meses', // Filtro para el gráfico
   loading: false // Cargando
 }
@@ -24,6 +25,8 @@ const reducer = (state, action) => {
       return { ...state, pieChartData: action.payload }
     case 'SET_MODAL_DATA':
       return { ...state, modalData: action.payload }
+    case 'SET_MODAL_ORDER':
+      return { ...state, modalOrder: action.payload }
     case 'SET_MONTH_FILTER':
       return { ...state, monthFilter: action.payload }
     case 'SET_LOADING':
@@ -69,7 +72,7 @@ const NotionDataProvider = ({ children }) => {
     } catch (error) {
       console.error('Error:', error)
       dispatch({ type: 'SET_LOADING', payload: false })
-      dispatch({ type: 'SET_PIE_CHART_DATA', payload: undefined })
+      dispatch({ type: 'SET_PIE_CHART_DATA', payload: null })
     }
   }
 

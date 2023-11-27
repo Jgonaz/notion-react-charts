@@ -23,6 +23,10 @@ body {
   flex-direction: column;
 }
 
+.cursor-pointer {
+  cursor: pointer;
+}
+
 .month-selector {
   > select {
     padding: 6px;

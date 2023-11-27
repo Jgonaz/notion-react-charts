@@ -16,15 +16,18 @@ const CategoriesList = () => {
 
   const toggleModal = (open, category) => {
     if (open) {
+      const order = { property: 'Fecha', type: 'desc' }
       const modalData = groupGastos(
         state.notionData.gastos,
         category,
-        state.monthFilter
+        state.monthFilter,
+        order
       )
+      dispatch({ type: 'SET_MODAL_ORDER', payload: order })
       dispatch({ type: 'SET_MODAL_DATA', payload: modalData })
     } else {
       setTimeout(() => {
-        dispatch({ type: 'SET_MODAL_DATA', payload: undefined })
+        dispatch({ type: 'SET_MODAL_DATA', payload: null })
       }, 250)
     }
     setShowModal(open)
@@ -63,7 +66,7 @@ const CategoriesList = () => {
       </div>
       {orderCategories.map((categoria, index) => (
         <div
-          onClick={() => toggleModal(true, categoria)}
+          onClick={() => toggleModal(true, categoria.Categoría)}
           key={index}
           className='category'
           style={{

@@ -15,3 +15,14 @@ export const compareDates = (a, b, type) => {
     return 0
   }
 }
+
+// Función de comparación para ordenar por la propiedad 'Cantidad' de forma descendente
+export const compareQuantities = (a, b, type) => {
+  if (a.Cantidad > b.Cantidad) {
+    return type === 'desc' ? -1 : 1
+  } else if (a.Cantidad < b.Cantidad) {
+    return type === 'desc' ? 1 : -1
+  } else {
+    return 0
+  }
+}
