@@ -1,4 +1,5 @@
 import { chartColors, chartBorderColors } from '../constants/chartColors'
+import { compareDates } from './utils'
 
 export const mapGastos = (gastos, categorias, meses) => {
   try {
@@ -120,15 +121,18 @@ export const groupCategories = (gastos, mes) => {
   return datosAgrupados
 }
 
-// Devuelve los gastos por categoría y mes (si hay filtro indicado)
+// Devuelve los gastos por categoría y mes (si hay filtro indicado) ordenados por fecha
 export const groupGastos = (gastos, categoria, mes) => {
   // Filtrar los gastos por categoría y mes
-  const gastosFiltrados = gastos.filter(gasto => {
-    return (
-      gasto.Categoría === categoria.Categoría &&
-      (mes === 'Todos los meses' || gasto.Mes === mes)
-    )
-  })
+  const gastosFiltrados = gastos
+    .filter(gasto => {
+      return (
+        gasto.Categoría === categoria.Categoría &&
+        (mes === 'Todos los meses' || gasto.Mes === mes)
+      )
+    })
+    // Ordenar los gastos por fecha de forma descendente
+    .sort((a, b) => compareDates(a, b, 'desc'))
 
   return gastosFiltrados
 }

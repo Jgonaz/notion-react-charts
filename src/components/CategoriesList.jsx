@@ -23,7 +23,11 @@ const CategoriesList = () => {
         state.monthFilter
       )
       setContentModal(modalData)
-    } else setContentModal(undefined)
+    } else {
+      setTimeout(() => {
+        setContentModal(undefined)
+      }, 250)
+    }
     setShowModal(open)
   }
 
@@ -31,6 +35,19 @@ const CategoriesList = () => {
   const orderCategories = [...state.pieChartData].sort(
     (a, b) => b.Cantidad - a.Cantidad
   )
+
+  const modalStyle = {
+    overlay: {
+      backgroundColor: 'rgba(0, 0, 0, 0.5)'
+    },
+    content: {
+      width: '80%',
+      maxHeight: '80vh',
+      height: 'fit-content',
+      margin: 'auto', // Centro la modal horizontalmente
+      overflowY: 'auto' // Agrega desplazamiento vertical si es necesario
+    }
+  }
 
   return (
     <div className='categories-list'>
@@ -72,9 +89,21 @@ const CategoriesList = () => {
         isOpen={showModal}
         onRequestClose={() => toggleModal(false)}
         closeTimeoutMS={250}
+        style={modalStyle}
       >
-        {contentModal && <BillsTable data={contentModal} />}
-        <button onClick={() => toggleModal(false)}>Cerrar</button>
+        <div className='modal-header'>
+          <span onClick={() => toggleModal(false)}>&times;</span>
+        </div>
+        <div>
+          {contentModal && <BillsTable data={contentModal} />}
+          <button
+            className='main-btn close-btn'
+            type='button'
+            onClick={() => toggleModal(false)}
+          >
+            <span>Cerrar</span>
+          </button>
+        </div>
       </Modal>
     </div>
   )

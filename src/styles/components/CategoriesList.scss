@@ -26,3 +26,25 @@
     }
   }
 }
+
+.ReactModalPortal {
+  .modal-header {
+    position: sticky;
+    top: 0px;
+    background-color: transparent;
+    z-index: 1000;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    > span {
+      cursor: pointer;
+      font-size: 20px;
+      padding: 6px;
+      background: transparent;
+    }
+  }
+  .close-btn {
+    margin-top: 1rem;
+    float: 'right';
+  }
+}
