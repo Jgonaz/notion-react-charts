@@ -11,9 +11,8 @@ import BillsTable from './BillsTable.jsx'
 Modal.setAppElement('#app')
 
 const CategoriesList = () => {
-  const { state } = useContext(NotionDataContext)
+  const { state, dispatch } = useContext(NotionDataContext)
   const [showModal, setShowModal] = useState(false)
-  const [contentModal, setContentModal] = useState(false)
 
   const toggleModal = (open, category) => {
     if (open) {
@@ -22,10 +21,10 @@ const CategoriesList = () => {
         category,
         state.monthFilter
       )
-      setContentModal(modalData)
+      dispatch({ type: 'SET_MODAL_DATA', payload: modalData })
     } else {
       setTimeout(() => {
-        setContentModal(undefined)
+        dispatch({ type: 'SET_MODAL_DATA', payload: undefined })
       }, 250)
     }
     setShowModal(open)
@@ -95,9 +94,10 @@ const CategoriesList = () => {
           <span onClick={() => toggleModal(false)}>&times;</span>
         </div>
         <div>
-          {contentModal && <BillsTable data={contentModal} />}
+          {state.modalData && <BillsTable />}
           <button
-            className='main-btn close-btn'
+            className='main-btn'
+            style={{ marginTop: '1.5rem' }}
             type='button'
             onClick={() => toggleModal(false)}
           >

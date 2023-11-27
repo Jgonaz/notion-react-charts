@@ -9,10 +9,11 @@ import {
 } from '../utils/dataMapping.js'
 
 const initialState = {
-  notionData: undefined,
-  pieChartData: [],
-  monthFilter: 'Todos los meses', // Filtramos por cadena
-  loading: false
+  notionData: undefined, // Datos de las tablas de Notion (todos los gastos, ingresos, categorías y meses)
+  pieChartData: [], // Datos para el gráfico (gastos organizados por categoría)
+  modalData: undefined, // Datos para la modal (gastos desglosados por fecha, organizados por categoría y mes)
+  monthFilter: 'Todos los meses', // Filtro para el gráfico
+  loading: false // Cargando
 }
 
 const reducer = (state, action) => {
@@ -21,6 +22,8 @@ const reducer = (state, action) => {
       return { ...state, notionData: action.payload }
     case 'SET_PIE_CHART_DATA':
       return { ...state, pieChartData: action.payload }
+    case 'SET_MODAL_DATA':
+      return { ...state, modalData: action.payload }
     case 'SET_MONTH_FILTER':
       return { ...state, monthFilter: action.payload }
     case 'SET_LOADING':
