@@ -14,13 +14,13 @@ export default function PieChart () {
   const { state } = useContext(NotionDataContext)
 
   const data = {
-    labels: state.pieChartData.map(item => item.Categoría),
+    labels: state.categoriesData.map(item => item.Categoría),
     datasets: [
       {
         label: '(€)',
-        data: state.pieChartData.map(item => item.Cantidad),
-        backgroundColor: state.pieChartData.map(item => item.Color),
-        borderColor: state.pieChartData.map(item => item.BorderColor),
+        data: state.categoriesData.map(item => item.Cantidad),
+        backgroundColor: state.categoriesData.map(item => item.Color),
+        borderColor: state.categoriesData.map(item => item.BorderColor),
         borderWidth: 1
       }
     ]
@@ -37,7 +37,7 @@ export default function PieChart () {
           const label = data.labels[context.dataIndex]
           const porcentaje = (
             (value /
-              state.pieChartData.reduce(
+              state.categoriesData.reduce(
                 (acc, item) => acc + item.Cantidad,
                 0
               )) *

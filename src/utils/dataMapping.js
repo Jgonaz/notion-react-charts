@@ -1,7 +1,7 @@
 import { chartColors, chartBorderColors } from '../constants/chartColors'
 import { compareDates, compareQuantities } from './utils'
 
-export const mapGastos = (gastos, categorias, meses) => {
+export const mapExpenses = (expenses, categories, months) => {
   try {
     const mapData = function (data, item, property) {
       switch (data) {
@@ -21,14 +21,14 @@ export const mapGastos = (gastos, categorias, meses) => {
     }
 
     const mapMonth = item => {
-      return meses.find(cat => cat.id === item[0].id).value || null
+      return months.find(cat => cat.id === item[0].id).value || null
     }
 
     const mapCategory = item => {
-      return categorias.find(cat => cat.id === item[0].id).value || null
+      return categories.find(cat => cat.id === item[0].id).value || null
     }
 
-    return gastos.map(data => {
+    return expenses.map(data => {
       const item = {}
       Object.entries(data.properties).forEach(([key, value]) => {
         item[key] = mapData(
@@ -45,7 +45,7 @@ export const mapGastos = (gastos, categorias, meses) => {
   }
 }
 
-export const mapMeses = data => {
+export const mapMonths = data => {
   const months = []
   try {
     data.map(item => {
@@ -63,7 +63,7 @@ export const mapMeses = data => {
   }
 }
 
-export const mapCategorias = data => {
+export const mapCategories = data => {
   const categories = []
   try {
     data.map(item => {
@@ -82,37 +82,37 @@ export const mapCategorias = data => {
 }
 
 // Agrupa todos los gastos por categoría y mes (si hay filtro indicado)
-export const groupCategories = (gastos, mes) => {
+export const groupCategories = (expenses, month) => {
   // Crear un objeto para almacenar la suma de cantidades por categoría
-  const categoriasSuma = {}
+  const totalCategories = {}
   let total = 0
 
   // Procesar los datos y sumar las cantidades por categoría
-  gastos.forEach(item => {
-    const categoria = item.Categoría
-    const cantidad = !mes || item.Mes === mes ? item.Cantidad : 0
+  expenses.forEach(item => {
+    const category = item.Categoría
+    const quantity = !month || item.Mes === month ? item.Cantidad : 0
 
     // Sumar la cantidad al total
-    total += cantidad
+    total += quantity
 
     // Si la categoría ya existe en el objeto, sumar la cantidad
-    if (categoriasSuma[categoria]) {
-      categoriasSuma[categoria] += cantidad
+    if (totalCategories[category]) {
+      totalCategories[category] += quantity
     } else {
       // Si la categoría no existe, crearla y establecer la cantidad
-      categoriasSuma[categoria] = cantidad
+      totalCategories[category] = quantity
     }
   })
 
   // Convertir el objeto en un array para usarlo con Recharts
-  const datosAgrupados = Object.keys(categoriasSuma).map((categoria, index) => {
-    const cantidad = categoriasSuma[categoria]
-    const porcentaje = total > 0 ? ((cantidad / total) * 100).toFixed(2) : 0
+  const datosAgrupados = Object.keys(totalCategories).map((category, index) => {
+    const quantity = totalCategories[category]
+    const percentage = total > 0 ? ((quantity / total) * 100).toFixed(2) : 0
 
     return {
-      Categoría: categoria,
-      Cantidad: cantidad,
-      Porcentaje: porcentaje,
+      Categoría: category,
+      Cantidad: quantity,
+      Porcentaje: percentage,
       Color: chartColors[index],
       BorderColor: chartBorderColors[index]
     }
@@ -122,25 +122,25 @@ export const groupCategories = (gastos, mes) => {
 }
 
 // Devuelve los gastos por categoría, mes (si hay filtro indicado) y orden
-export const groupGastos = (gastos, categoria, mes, order) => {
+export const groupExpenses = (expenses, category, month, order) => {
   // Filtrar los gastos por categoría y mes
-  const gastosFiltrados = gastos.filter(gasto => {
+  const filteredExpenses = expenses.filter(gasto => {
     return (
-      gasto.Categoría === categoria &&
-      (mes === 'Todos los meses' || gasto.Mes === mes)
+      gasto.Categoría === category &&
+      (month === 'Todos los meses' || gasto.Mes === month)
     )
   })
 
   switch (order.property) {
     case 'Fecha':
-      gastosFiltrados.sort((a, b) => compareDates(a, b, order.type))
+      filteredExpenses.sort((a, b) => compareDates(a, b, order.type))
       break
     case 'Cantidad':
-      gastosFiltrados.sort((a, b) => compareQuantities(a, b, order.type))
+      filteredExpenses.sort((a, b) => compareQuantities(a, b, order.type))
       break
     default:
       break
   }
 
-  return gastosFiltrados
+  return filteredExpenses
 }

@@ -1,21 +1,21 @@
-import '../styles/components/BillsTable.scss'
-import { formatCurrency } from '../utils/utils'
+import '../styles/components/ExpensesList.scss'
+import { formatCurrency } from '../utils/utils.js'
 import { useContext } from 'react'
 import { NotionDataContext } from '../contexts/NotionDataContext.jsx'
-import { groupGastos } from '../utils/dataMapping.js'
+import { groupExpenses } from '../utils/dataMapping.js'
 
-const BillsTable = () => {
+const ExpensesList = () => {
   const { state, dispatch } = useContext(NotionDataContext)
 
   const handleOrder = (property, type) => {
-    const modalData = groupGastos(
-      state.notionData.gastos,
-      state.modalData[0].Categoría,
+    const expensesData = groupExpenses(
+      state.notionData.expenses,
+      state.expensesData[0].Categoría,
       state.monthFilter,
       { property, type }
     )
-    dispatch({ type: 'SET_MODAL_ORDER', payload: { property, type } })
-    dispatch({ type: 'SET_MODAL_DATA', payload: modalData })
+    dispatch({ type: 'SET_EXPENSES_ORDER', payload: { property, type } })
+    dispatch({ type: 'SET_EXPENSES_DATA', payload: expensesData })
   }
 
   return (
@@ -26,7 +26,7 @@ const BillsTable = () => {
           onClick={() =>
             handleOrder(
               'Fecha',
-              state.modalOrder.type === 'asc' ? 'desc' : 'asc'
+              state.expensesOrder.type === 'asc' ? 'desc' : 'asc'
             )
           }
         >
@@ -37,7 +37,7 @@ const BillsTable = () => {
           onClick={() =>
             handleOrder(
               'Cantidad',
-              state.modalOrder.type === 'asc' ? 'desc' : 'asc'
+              state.expensesOrder.type === 'asc' ? 'desc' : 'asc'
             )
           }
         >
@@ -50,7 +50,7 @@ const BillsTable = () => {
           <strong>Descripción</strong>
         </div>
       </div>
-      {state.modalData.map((objeto, index) => (
+      {state.expensesData.map((objeto, index) => (
         <div key={index} className='row'>
           <div className='cell' data-label='Fecha:'>
             {objeto.Fecha}
@@ -70,4 +70,4 @@ const BillsTable = () => {
   )
 }
 
-export default BillsTable
+export default ExpensesList

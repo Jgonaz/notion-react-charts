@@ -7,7 +7,7 @@ export default function MonthSelector () {
 
   const monthOptions = [
     { value: '', label: 'Todos los meses' },
-    ...(state.notionData?.meses || []).map(month => {
+    ...(state.notionData?.months || []).map(month => {
       return { value: month.id, label: month.value }
     })
   ]
@@ -15,12 +15,11 @@ export default function MonthSelector () {
   const onChangeFilter = month => {
     dispatch({ type: 'SET_MONTH_FILTER', payload: month })
     dispatch({
-      type: 'SET_PIE_CHART_DATA',
-      payload: (prevState =>
-        groupCategories(
-          state.notionData?.gastos,
-          month === 'Todos los meses' ? '' : month
-        ))()
+      type: 'SET_CATEGORIES_DATA',
+      payload: groupCategories(
+        state.notionData?.expenses,
+        month === 'Todos los meses' ? '' : month
+      )
     })
   }
 

@@ -4,8 +4,8 @@ import { useContext, useState } from 'react'
 import { NotionDataContext } from '../contexts/NotionDataContext.jsx'
 import { formatCurrency } from '../utils/utils.js'
 import Modal from 'react-modal'
-import { groupGastos } from '../utils/dataMapping.js'
-import BillsTable from './BillsTable.jsx'
+import { groupExpenses } from '../utils/dataMapping.js'
+import ExpensesList from './ExpensesList.jsx'
 
 // Debes invocar a esta función solo una vez en tu aplicación
 Modal.setAppElement('#app')
@@ -17,24 +17,24 @@ const CategoriesList = () => {
   const toggleModal = (open, category) => {
     if (open) {
       const order = { property: 'Fecha', type: 'desc' }
-      const modalData = groupGastos(
-        state.notionData.gastos,
+      const expensesData = groupExpenses(
+        state.notionData.expenses,
         category,
         state.monthFilter,
         order
       )
-      dispatch({ type: 'SET_MODAL_ORDER', payload: order })
-      dispatch({ type: 'SET_MODAL_DATA', payload: modalData })
+      dispatch({ type: 'SET_EXPENSES_ORDER', payload: order })
+      dispatch({ type: 'SET_EXPENSES_DATA', payload: expensesData })
     } else {
       setTimeout(() => {
-        dispatch({ type: 'SET_MODAL_DATA', payload: null })
+        dispatch({ type: 'SET_EXPENSES_DATA', payload: [] })
       }, 250)
     }
     setShowModal(open)
   }
 
   // Ordenar las categorías por cantidad descendente
-  const orderCategories = [...state.pieChartData].sort(
+  const orderCategories = [...state.categoriesData].sort(
     (a, b) => b.Cantidad - a.Cantidad
   )
 
@@ -97,7 +97,7 @@ const CategoriesList = () => {
           <span onClick={() => toggleModal(false)}>&times;</span>
         </div>
         <div>
-          {state.modalData && <BillsTable />}
+          {state.expensesData && <ExpensesList />}
           <button
             className='main-btn'
             style={{ marginTop: '1.5rem' }}
