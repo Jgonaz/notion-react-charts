@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom'
+
 export default function Header () {
   return (
     <div
@@ -9,12 +11,16 @@ export default function Header () {
         background: '#f9f9f9'
       }}
     >
-      <button type='button' className='main-btn'>
-        Ver gastos
-      </button>
-      <button type='button' className='main-btn'>
-        Ver diferencias
-      </button>
+      <Link to='/expenses'>
+        <button type='button' className='main-btn'>
+          Ver gastos
+        </button>
+      </Link>
+      <Link to='/differences'>
+        <button type='button' className='main-btn'>
+          Ver diferencias
+        </button>
+      </Link>
     </div>
   )
 }

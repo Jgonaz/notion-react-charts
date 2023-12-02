@@ -1,10 +1,10 @@
-import '../styles/components/CategoriesList.scss'
-import '../styles/components/Modal.scss'
+import '@src/styles/components/CategoriesList.scss'
+import '@src/styles/components/Modal.scss'
 import { useContext, useState } from 'react'
-import { NotionDataContext } from '../contexts/NotionDataContext.jsx'
-import { formatCurrency } from '../utils/utils.js'
+import { NotionDataContext } from '@src/contexts/NotionDataContext.jsx'
+import { formatCurrency } from '@src/utils/utils.js'
 import Modal from 'react-modal'
-import { groupExpenses } from '../utils/dataMapping.js'
+import { groupExpenses } from '@src/utils/dataMapping.js'
 import ExpensesList from './ExpensesList.jsx'
 
 // Debes invocar a esta función solo una vez en tu aplicación

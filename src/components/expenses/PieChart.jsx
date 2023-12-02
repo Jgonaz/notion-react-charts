@@ -2,9 +2,9 @@ import { useContext } from 'react'
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
 import { Pie } from 'react-chartjs-2'
 import ChartDataLabels from 'chartjs-plugin-datalabels'
-import { NotionDataContext } from '../contexts/NotionDataContext.jsx'
+import { NotionDataContext } from '@src/contexts/NotionDataContext.jsx'
 import MonthSelector from './MonthSelector.jsx'
-import { formatCurrency } from '../utils/utils.js'
+import { formatCurrency } from '@src/utils/utils.js'
 import CategoriesList from './CategoriesList.jsx'
 
 ChartJS.register(ArcElement, Tooltip, Legend)

@@ -7,21 +7,36 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Expenses />
+    element: (
+      <>
+        <Header />
+        <Expenses />
+      </>
+    )
   },
   {
     path: '/expenses',
-    element: <Expenses />
+    element: (
+      <>
+        <Header />
+        <Expenses />
+      </>
+    )
   },
   {
-    path: '/difference',
-    element: <Difference />
+    path: '/differences',
+    element: (
+      <>
+        <Header />
+        <Difference />
+      </>
+    )
   }
 ])
+
 function App () {
   return (
     <>
-      <Header />
       <RouterProvider router={router} />
     </>
   )
