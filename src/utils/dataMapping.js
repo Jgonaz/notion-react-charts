@@ -21,24 +21,32 @@ export const mapExpenses = (expenses, categories, months) => {
     }
 
     const mapMonth = item => {
-      return months.find(cat => cat.id === item[0].id).value || null
+      if (!item || !item.length) return ''
+      return months.find(cat => cat.id === item[0].id).value || ''
     }
 
     const mapCategory = item => {
-      return categories.find(cat => cat.id === item[0].id).value || null
+      if (!item || !item.length) return ''
+      return categories.find(cat => cat.id === item[0].id).value || ''
     }
 
-    return expenses.map(data => {
+    const mappedExpenses = []
+
+    // Mapeamos los gastos y filtramos por los que no tengan valor.
+    expenses.forEach(data => {
       const item = {}
       Object.entries(data.properties).forEach(([key, value]) => {
-        item[key] = mapData(
-          value.type.toString(),
-          value[value.type.toString()],
-          key
-        )
+        const type = value.type.toString() // value.type = 'number' // ej.
+        const val = value[value.type.toString()] // value['number'] = 38 // ej.
+        item[key] = mapData(type, val, key)
       })
-      return item
+      // Verificar si el objeto NO es vacío
+      if (item.Cantidad > 0) {
+        mappedExpenses.push(item)
+      }
     })
+
+    return mappedExpenses
   } catch (e) {
     console.error('Error al mapear gastos', e)
     return []

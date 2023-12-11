@@ -1,5 +1,8 @@
 export const formatCurrency = amount => {
-  return amount.toLocaleString('es-ES', { style: 'currency', currency: 'EUR' })
+  return (amount || 0).toLocaleString('es-ES', {
+    style: 'currency',
+    currency: 'EUR'
+  })
 }
 
 // Función de comparación para ordenar por la propiedad 'Fecha' de forma descendente

@@ -11,8 +11,8 @@ export const chartColors = [
   'rgba(23, 190, 207, 0.2)', // Turquesa
   'rgba(255, 152, 150, 0.2)', // Rosa pálido
   'rgba(174, 199, 232, 0.2)', // Azul claro
-  '#ffffff', // Blanco
-  '#000' // Negro
+  'rgba(128, 0, 128, 0.2)', // Púrpura oscuro
+  'rgba(0, 0, 0, 0.1)' // Blanco
 ]
 
 export const chartBorderColors = [
@@ -28,6 +28,6 @@ export const chartBorderColors = [
   '#17becf', // Turquesa
   '#ff9896', // Rosa pálido
   '#aec7e8', // Azul claro
-  'rgba(0, 0, 0, 0.2)', // Blanco
-  'rgba(0, 0, 0, 0.8)' // Negro
+  '#800080', // Púrpura oscuro
+  'rgba(0, 0, 0, 0.25)' // Blanco
 ]
