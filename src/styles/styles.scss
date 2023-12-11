@@ -3,13 +3,18 @@ html {
 }
 
 body {
-  max-width: 1200px;
   margin: auto;
   font-family: 'Roboto', sans-serif;
 }
 
 #app {
   min-height: 100vh;
+}
+
+.main-container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 0 20px;
 }
 
 .flex-center {

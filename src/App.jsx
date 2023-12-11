@@ -1,26 +1,44 @@
 import './styles/styles.scss'
-import { useContext } from 'react'
-import { NotionDataContext } from './contexts/NotionDataContext.jsx'
-import PieChart from './components/PieChart.jsx'
-import Loading from './components/Loading.jsx'
+import Header from './components/Header.jsx'
+import Expenses from './components/routes/Expenses.jsx'
+import Difference from './components/routes/Difference.jsx'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
-function App () {
-  const { state } = useContext(NotionDataContext)
-
-  function NoData () {
-    return (
-      <div className='flex-center flex-column'>
-        <h1>No hay datos para mostrar</h1>
-      </div>
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: (
+      <>
+        <Header />
+        <Expenses />
+      </>
+    )
+  },
+  {
+    path: '/expenses',
+    element: (
+      <>
+        <Header />
+        <Expenses />
+      </>
+    )
+  },
+  {
+    path: '/differences',
+    element: (
+      <>
+        <Header />
+        <Difference />
+      </>
     )
   }
+])
 
+function App () {
   return (
-    <div className='flex-center flex-column'>
-      {state.loading && <Loading />}
-      {!state.loading && !state.notionData && <NoData />}
-      {!state.loading && state.notionData && <PieChart />}
-    </div>
+    <>
+      <RouterProvider router={router} />
+    </>
   )
 }
 

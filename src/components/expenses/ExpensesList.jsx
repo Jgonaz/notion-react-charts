@@ -1,8 +1,8 @@
-import '../styles/components/ExpensesList.scss'
-import { formatCurrency } from '../utils/utils.js'
+import '@src/styles/components/ExpensesList.scss'
+import { formatCurrency } from '@src/utils/utils.js'
 import { useContext } from 'react'
-import { NotionDataContext } from '../contexts/NotionDataContext.jsx'
-import { groupExpenses } from '../utils/dataMapping.js'
+import { NotionDataContext } from '@src/contexts/NotionDataContext.jsx'
+import { groupExpenses } from '@src/utils/dataMapping.js'
 
 const ExpensesList = () => {
   const { state, dispatch } = useContext(NotionDataContext)

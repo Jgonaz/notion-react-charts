@@ -23,8 +23,9 @@ button {
   &.main-btn:active,
   &.main-btn:visited {
     border: 2px solid #2b2d42;
-    background-color: transparent;
+    background-color: white;
     color: #2b2d42;
+    text-wrap: nowrap;
     &:before {
       width: 0;
       height: 100%;

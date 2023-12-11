@@ -1,6 +1,6 @@
 import { useContext } from 'react'
-import { NotionDataContext } from '../contexts/NotionDataContext.jsx'
-import { groupCategories } from '../utils/dataMapping.js'
+import { NotionDataContext } from '@src/contexts/NotionDataContext.jsx'
+import { groupCategories } from '@src/utils/dataMapping.js'
 
 export default function MonthSelector () {
   const { state, dispatch } = useContext(NotionDataContext)
