@@ -152,3 +152,20 @@ export const groupExpenses = (expenses, category, month, order) => {
 
   return filteredExpenses
 }
+
+export const groupIncomes = (incomes, months) => {
+  // Crear un objeto para almacenar los totales por ID de mes
+  const totalesPorId = {}
+
+  // Calcular los totales por ID de mes
+  incomes?.forEach(income => {
+    const mesId = income.properties.Mes.relation[0].id
+    if (!totalesPorId[mesId]) {
+      totalesPorId[mesId] = 0
+    }
+    totalesPorId[mesId] += income.properties.Cantidad.number
+  })
+
+  // Crear un array con los totales en el orden de los meses
+  return months?.map(mes => totalesPorId[mes.id] || 0)
+}
