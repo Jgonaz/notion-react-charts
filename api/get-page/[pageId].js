@@ -3,7 +3,7 @@ import { Client } from '@notionhq/client'
 const notion = new Client({ auth: process.env.VITE_NOTION_API_KEY })
 
 export default async function (req, res) {
-  const { pageId } = req.params // Asegúrate de obtener los parámetros correctamente
+  const { pageId } = req.query // Asegúrate de obtener los parámetros correctamente
 
   try {
     const response = await notion.pages.retrieve({
