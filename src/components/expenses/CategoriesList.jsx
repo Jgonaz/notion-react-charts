@@ -93,19 +93,21 @@ const CategoriesList = () => {
         closeTimeoutMS={250}
         style={modalStyle}
       >
-        <div className='modal-header'>
-          <span onClick={() => toggleModal(false)}>&times;</span>
-        </div>
-        <div>
-          {state.expensesData && <ExpensesList />}
-          <button
-            className='main-btn'
-            style={{ marginTop: '1.5rem' }}
-            type='button'
-            onClick={() => toggleModal(false)}
-          >
-            <span>Cerrar</span>
-          </button>
+        <div className='modal'>
+          <div className='modal-header'>
+            <span onClick={() => toggleModal(false)}>&times;</span>
+          </div>
+          <div>
+            {state.expensesData && <ExpensesList />}
+            <button
+              className='main-btn'
+              style={{ marginTop: '1.5rem' }}
+              type='button'
+              onClick={() => toggleModal(false)}
+            >
+              <span>Cerrar</span>
+            </button>
+          </div>
         </div>
       </Modal>
     </div>

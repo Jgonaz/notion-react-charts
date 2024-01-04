@@ -58,13 +58,21 @@ export default function PieChart () {
     }
   }
 
+  const pieSize = window.innerWidth > 675 ? 600 : window.innerWidth - 75
+
   return (
-    <div className='flex-center'>
+    <div className='flex-center pie-chart'>
       <div>
         <div className='flex-center' style={{ marginTop: '15px' }}>
           <MonthSelector />
         </div>
-        <div style={{ width: '600px', height: '600px', padding: '15px' }}>
+        <div
+          style={{
+            width: pieSize + 'px',
+            height: pieSize + 'px',
+            padding: '15px'
+          }}
+        >
           <Pie data={data} options={options} plugins={[ChartDataLabels]} />
         </div>
       </div>

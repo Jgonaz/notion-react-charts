@@ -18,7 +18,7 @@ export default function Header () {
       </Link>
       <Link to='/differences'>
         <button type='button' className='main-btn'>
-          Ver diferencias
+          Ver ingresos
         </button>
       </Link>
     </div>

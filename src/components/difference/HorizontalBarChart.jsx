@@ -25,9 +25,14 @@ function HorizontalbarChart () {
       }
     },
     responsive: true,
+    maintainAspectRatio: false, // Asegúrate de que el gráfico se ajuste al contenedor
     plugins: {
       legend: {
-        position: 'right'
+        position: window.innerWidth > 600 ? 'right' : 'bottom',
+        labels: {
+          boxWidth: 20, // Reducir el tamaño de la caja de colores de la leyenda
+          padding: 10 // Espaciado alrededor de cada ítem de leyenda
+        }
       },
       title: {
         display: true,
@@ -66,7 +71,11 @@ function HorizontalbarChart () {
     ]
   }
 
-  return <Bar options={options} data={data} />
+  return (
+    <div className='horizontal-bar-chart'>
+      <Bar options={options} data={data} />
+    </div>
+  )
 }
 
 export default HorizontalbarChart
