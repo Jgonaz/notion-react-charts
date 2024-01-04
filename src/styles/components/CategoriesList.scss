@@ -45,8 +45,13 @@
   }
 }
 
-@media screen and (width <= 600px) {
-  .ReactModal__Content {
-    width: unset !important;
+.ReactModalPortal {
+  .ReactModal__Overlay {
+    z-index: 1;
+    @media screen and (width <= 600px) {
+      .ReactModal__Content {
+        width: unset !important;
+      }
+    }
   }
 }
