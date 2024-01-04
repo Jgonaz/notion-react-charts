@@ -41,7 +41,7 @@ export const mapExpenses = (expenses, categories, months) => {
         item[key] = mapData(type, val, key)
       })
       // Verificar si el objeto NO es vacío
-      if (item.Cantidad > 0) {
+      if (item.Cantidad) {
         mappedExpenses.push(item)
       }
     })
