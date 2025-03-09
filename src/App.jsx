@@ -1,44 +1,19 @@
-import './styles/styles.scss'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import './styles/main.scss'
 import Header from './components/Header.jsx'
 import Expenses from './components/routes/Expenses.jsx'
 import Difference from './components/routes/Difference.jsx'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-
-const router = createBrowserRouter([
-  {
-    path: '/',
-    element: (
-      <>
-        <Header />
-        <Expenses />
-      </>
-    )
-  },
-  {
-    path: '/expenses',
-    element: (
-      <>
-        <Header />
-        <Expenses />
-      </>
-    )
-  },
-  {
-    path: '/differences',
-    element: (
-      <>
-        <Header />
-        <Difference />
-      </>
-    )
-  }
-])
 
 function App () {
   return (
-    <>
-      <RouterProvider router={router} />
-    </>
+    <BrowserRouter>
+      <Header />
+      <Routes>
+        <Route path='/' element={<Expenses />} />
+        <Route path='/expenses' element={<Expenses />} />
+        <Route path='/differences' element={<Difference />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
 

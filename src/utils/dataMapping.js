@@ -64,6 +64,12 @@ export const mapMonths = data => {
       })
       return item
     })
+    // Ordenar cronológicamente descendente
+    months.sort((a, b) => {
+      const [yearA, monthA] = a.value.split(' ')[0].split('-').map(Number)
+      const [yearB, monthB] = b.value.split(' ')[0].split('-').map(Number)
+      return yearB - yearA || monthB - monthA
+    })
     return months
   } catch (e) {
     console.error('Error al mapear meses', e)

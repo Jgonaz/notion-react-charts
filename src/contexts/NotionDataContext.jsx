@@ -7,7 +7,6 @@ import {
   mapExpenses,
   groupCategories
 } from '../utils/dataMapping.js'
-import mockupData from '../mockups/example-data.json'
 
 const initialState = {
   notionData: [], // Datos de las tablas de Notion (todos los gastos, ingresos, categorías y meses)
@@ -42,17 +41,22 @@ const NotionDataContext = createContext()
 
 // Descarga y mapea los datos de Notion.
 const fetchData = async () => {
-  if (import.meta.env.VITE_NOTION_API_KEY) {
-    // Si tenemos la ID de la base de datos de Notion en el archivo .env, hace la llamada a la API.
-    return await Promise.all([
-      getNotionData(import.meta.env.VITE_NOTION_CATEGORIAS_ID, 'Categorias'),
-      getNotionData(import.meta.env.VITE_NOTION_MESES_ID, 'Meses'),
-      getNotionData(import.meta.env.VITE_NOTION_GASTOS_ID, 'Gastos'),
-      getNotionData(import.meta.env.VITE_NOTION_INGRESOS_ID, 'Ingresos')
-    ])
-  } else {
+  try {
+    if (import.meta.env.VITE_NOTION_API_KEY) {
+      return await Promise.all([
+        getNotionData(import.meta.env.VITE_NOTION_CATEGORIAS_ID, 'Categorias'),
+        getNotionData(import.meta.env.VITE_NOTION_MESES_ID, 'Meses'),
+        getNotionData(import.meta.env.VITE_NOTION_GASTOS_ID, 'Gastos'),
+        getNotionData(import.meta.env.VITE_NOTION_INGRESOS_ID, 'Ingresos')
+      ])
+    } else {
+      // Throw new error
+      throw new Error('No se ha configurado la clave de la API de Notion.')
+    }
+  } catch (error) {
     // Si no, devuelve los datos de ejemplo.
-    return mockupData
+    console.error('Error obteniendo datos de Notion:', error)
+    return [[], [], [], []] // Retornar arrays vacíos en caso de error
   }
 }
 
@@ -63,23 +67,32 @@ const NotionDataProvider = ({ children }) => {
   useEffect(() => {
     const loadNotionData = async () => {
       dispatch({ type: 'SET_LOADING', payload: true })
+
       try {
         const [categories, months, expenses, income] = await fetchData()
-        dispatch({ type: 'SET_LOADING', payload: false })
 
-        if (!categories || !months || !expenses || !income) {
+        if (
+          !categories?.length ||
+          !months?.length ||
+          !expenses?.length ||
+          !income?.length
+        ) {
           throw new Error('No se pudieron obtener los datos.')
         }
 
         // Mapea los datos.
+        const mappedCategories = mapCategories(categories)
+        const mappedMonths = mapMonths(months)
+        const mappedExpenses = mapExpenses(
+          expenses,
+          mappedCategories,
+          mappedMonths
+        )
+
         const data = {
-          categories: mapCategories(categories),
-          months: mapMonths(months),
-          expenses: mapExpenses(
-            expenses,
-            mapCategories(categories),
-            mapMonths(months)
-          ),
+          categories: mappedCategories,
+          months: mappedMonths,
+          expenses: mappedExpenses,
           income
         }
 
@@ -90,8 +103,8 @@ const NotionDataProvider = ({ children }) => {
           payload: groupCategories(data.expenses)
         })
       } catch (error) {
-        console.error('Error:', error)
-        return []
+        console.error('Error al cargar los datos:', error)
+        dispatch({ type: 'SET_LOADING', payload: false })
       }
     }
     loadNotionData()
